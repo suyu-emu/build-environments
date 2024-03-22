@@ -25,7 +25,6 @@ jobs:
       uses: https://github.com/docker/login-action@v1
       if: (github.ref == 'refs/heads/dev') && (github.repository == 'suyu/build-environments')
       with:
-        registry: git.suyu.dev
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.TOKEN }}
     - uses: https://github.com/docker/build-push-action@v2
@@ -33,4 +32,4 @@ jobs:
       with:
         push: ${{ (github.ref == 'refs/heads/dev') && (github.repository == 'suyu/build-environments') }}
         context: ${{ matrix.image }}
-        tags: suyu/build-environments:${{ matrix.image }}
+        tags: fijxu/build-environments:${{ matrix.image }}
