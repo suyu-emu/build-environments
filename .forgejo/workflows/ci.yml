@@ -26,8 +26,8 @@ jobs:
       if: (github.ref == 'refs/heads/dev') && (github.repository == 'suyu/build-environments')
       with:
         registry: git.suyu.dev
-        username: ${{ secrets.FORGEJO_USERNAME }}
-        password: ${{ secrets.FORGEJO_TOKEN }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.TOKEN }}
     - uses: https://github.com/docker/build-push-action@v2
       name: Build image
       with:
