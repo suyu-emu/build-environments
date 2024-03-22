@@ -1,5 +1,5 @@
 FROM archlinux:latest
-LABEL maintainer="yuzu"
+LABEL maintainer="suyu"
 
 # Add mingw-repo "ownstuff" is a AUR with an up to date mingw64
 # Runs pacman -Syu twice in order to work around pacman issues where the first run only updates the
@@ -43,6 +43,7 @@ RUN useradd -m -u 1027 -s /bin/bash yuzu && mkdir -p /tmp/pkgs && \
     mingw-w64-winpthreads \
     mingw-w64-zlib \
     mingw-w64-zstd \
+		nodejs-lts-iron \
     && \
     pacman -Scc --noconfirm && \
     rm -rf /usr/share/man/ /tmp/* /var/tmp/ /usr/{i686-w64-mingw32,lib32} /usr/lib/gcc/i686-w64-mingw32

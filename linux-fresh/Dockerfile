@@ -1,5 +1,5 @@
 FROM ubuntu:20.04
-LABEL maintainer="yuzu"
+LABEL maintainer="suyu"
 
 ENV BOOST_VER=1_79_0
 ENV CLANG_VER=14
@@ -90,6 +90,9 @@ RUN useradd -m -u 1027 -s /bin/bash yuzu && \
     ln -s $(which clang-${CLANG_VER}) /usr/bin/clang && \
     ln -s $(which clang++-${CLANG_VER}) /usr/bin/clang++ && \
     dpkg-reconfigure ccache && \
+# Install NodeJS
+		wget -qO- https://deb.nodesource.com/setup_20.x | bash - && apt-get install -y nodejs && \
+# Clean Container
     apt-get clean autoclean && \
     apt-get autoremove --yes && \
     rm -rf /var/lib/apt /var/lib/dpkg /var/lib/cache /var/lib/log
