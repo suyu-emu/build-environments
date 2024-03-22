@@ -49,7 +49,7 @@ RUN useradd -m -u 1027 -s /bin/bash yuzu && mkdir -p /tmp/pkgs && \
 
 # Install Boost from yuzu-emu/ext-linux-bin
 RUN wget --no-verbose \
-        https://github.com/yuzu-emu/ext-linux-bin/raw/main/mingw/mingw-w64-boost-1.79.0-1-any.pkg.tar.zst && \
+        https://git.suyu.dev/suyu/ext-linux-bin/raw/main/mingw/mingw-w64-boost-1.79.0-1-any.pkg.tar.zst && \
     pacman -U --noconfirm mingw-w64-boost-1.79.0-1-any.pkg.tar.zst && \
     rm mingw-w64-boost-1.79.0-1-any.pkg.tar.zst
 
