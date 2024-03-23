@@ -1,7 +1,7 @@
 FROM ubuntu:20.04
 LABEL maintainer="suyu"
-# Create a user account yuzu (UID 1027) that the container will run as
-RUN useradd -m -u 1027 -s /bin/bash yuzu && \
+# Create a user account suyu (UID 1027) that the container will run as
+RUN useradd -m -u 1027 -s /bin/bash suyu && \
     apt-get update && apt-get -y full-upgrade && \
     apt-get install -y git gpg-agent wget && \
     wget https://apt.llvm.org/llvm-snapshot.gpg.key && apt-key add ./llvm-snapshot.gpg.key && \

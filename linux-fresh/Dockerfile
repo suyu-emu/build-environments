@@ -11,8 +11,8 @@ ENV QT_PKG_VER=515
 ENV QT_VER=5.15.2
 ENV UBUNTU_VER=focal
 
-# Create a user account yuzu (UID 1027) that the container will run as
-RUN useradd -m -u 1027 -s /bin/bash yuzu && \
+# Create a user account suyu (UID 1027) that the container will run as
+RUN useradd -m -u 1027 -s /bin/bash suyu && \
     apt-get update && \
     apt-get full-upgrade -y && \
     apt-get install --no-install-recommends -y \
@@ -23,7 +23,7 @@ RUN useradd -m -u 1027 -s /bin/bash yuzu && \
     unzip \
     wget \
     xz-utils \
-# yuzu build requirements
+# suyu build requirements
     build-essential \
     ccache \
     git \
@@ -104,7 +104,7 @@ RUN cd /tmp && \
     cp -rv cmake-${CMAKE_VER}-linux-x86_64/* /usr && \
     rm -rf cmake-*
 
-# Install Boost from yuzu-emu/ext-linux-bin
+# Install Boost from suyu/ext-linux-bin
 RUN cd /tmp && \
     wget --no-verbose https://git.suyu.dev/suyu/ext-linux-bin/raw/main/boost/boost-${BOOST_VER}.tar.xz && \
     tar xvf boost-${BOOST_VER}.tar.xz && \
@@ -112,7 +112,7 @@ RUN cd /tmp && \
     cp -rv boost-${BOOST_VER}/usr / && \
     rm -rf boost*
 
-# Install GCC from yuzu-emu/ext-linux-bin
+# Install GCC from suyu/ext-linux-bin
 RUN cd /tmp && \
     wget --no-verbose \
         https://git.suyu.dev/suyu/ext-linux-bin/raw/main/gcc/gcc-${GCC_VER}-ubuntu.tar.xz.aa \
@@ -131,7 +131,7 @@ RUN cd /tmp && \
     ln -sv /usr/local/lib/gcc/x86_64-pc-linux-gnu/${GCC_VER} /usr/lib/gcc/x86_64-linux-gnu/${GCC_VER} && \
     cp -rv /usr/local/include/c++/${GCC_VER}/x86_64-pc-linux-gnu/* /usr/local/include/c++/${GCC_VER}/
 
-# Install GNU binutils from yuzu-emu/ext-linux-bin
+# Install GNU binutils from suyu/ext-linux-bin
 RUN cd /tmp && \
     wget --no-verbose \
         https://git.suyu.dev/suyu/ext-linux-bin/raw/main/binutils/binutils-${GNU_BIN_VER}-${UBUNTU_VER}.tar.xz && \
@@ -149,11 +149,11 @@ RUN patch /opt/qt515/include/QtConcurrent/qtconcurrentthreadengine.h /opt/qt515/
     rm /opt/qt515/qtconcurrentthreadengine.patch
 
 # Tell CMake to use vcpkg when looking for packages
-ENV VCPKG_TOOLCHAIN_FILE=/home/yuzu/vcpkg/scripts/buildsystems/vcpkg.cmake
+ENV VCPKG_TOOLCHAIN_FILE=/home/suyu/vcpkg/scripts/buildsystems/vcpkg.cmake
 
 USER 1027
-# Install vcpkg and required dependencies for yuzu
-RUN cd /home/yuzu &&\
+# Install vcpkg and required dependencies for suyu
+RUN cd /home/suyu &&\
     git clone --depth 1 https://github.com/Microsoft/vcpkg.git &&\
     cd vcpkg &&\
     ./bootstrap-vcpkg.sh &&\

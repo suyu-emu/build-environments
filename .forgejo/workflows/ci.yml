@@ -1,9 +1,10 @@
 name: 'Suyu Docker Image CI'
+
 on:
-  #  workflow_dispatch:
-  #  inputs: {}
-    #  schedule:
-    #    - cron: '0 7 * * 0'
+  # workflow_dispatch:
+  #   inputs: {}
+  schedule:
+    - cron: '0 7 * * 0'
   push:
     branches: ["dev"]
   pull_request:
@@ -21,14 +22,14 @@ jobs:
     - uses: https://github.com/actions/checkout@v2
     - uses: https://github.com/docker/setup-buildx-action@v1
       name: Setup Docker BuildX system
-    - name: Login to the Suyu Package Registry
+    - name: Login to Docker Container Registry
       uses: https://github.com/docker/login-action@v1
       if: (github.ref == 'refs/heads/dev') && (github.repository == 'suyu/build-environments')
       with:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.TOKEN }}
     - uses: https://github.com/docker/build-push-action@v2
-      name: Build image
+      name: Build images
       with:
         push: ${{ (github.ref == 'refs/heads/dev') && (github.repository == 'suyu/build-environments') }}
         context: ${{ matrix.image }}

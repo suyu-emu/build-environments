@@ -4,7 +4,7 @@ LABEL maintainer="suyu"
 # Add mingw-repo "ownstuff" is a AUR with an up to date mingw64
 # Runs pacman -Syu twice in order to work around pacman issues where the first run only updates the
 # current distro packages, and the second run actually pulls the updates from the repos.
-RUN useradd -m -u 1027 -s /bin/bash yuzu && mkdir -p /tmp/pkgs && \
+RUN useradd -m -u 1027 -s /bin/bash suyu && mkdir -p /tmp/pkgs && \
     echo "[ownstuff]" >> /etc/pacman.conf && \
     echo "SigLevel = Optional TrustAll" >> /etc/pacman.conf && \
     echo "Server = https://martchus.no-ip.biz/repo/arch/ownstuff/os/\$arch" >> /etc/pacman.conf && \
@@ -20,7 +20,7 @@ RUN useradd -m -u 1027 -s /bin/bash yuzu && mkdir -p /tmp/pkgs && \
     wget \
     git \
     glslang \
-# TODO: Remove python-pip after a reasonable amount of time has passed to let yuzu PRs rebase its scripts
+# TODO: Remove python-pip after a reasonable amount of time has passed to let suyu PRs rebase its scripts
     python-pefile \
     python-pip \
     python \
@@ -48,7 +48,7 @@ RUN useradd -m -u 1027 -s /bin/bash yuzu && mkdir -p /tmp/pkgs && \
     pacman -Scc --noconfirm && \
     rm -rf /usr/share/man/ /tmp/* /var/tmp/ /usr/{i686-w64-mingw32,lib32} /usr/lib/gcc/i686-w64-mingw32
 
-# Install Boost from yuzu-emu/ext-linux-bin
+# Install Boost from suyu/ext-linux-bin
 RUN wget --no-verbose \
         https://git.suyu.dev/suyu/ext-linux-bin/raw/main/mingw/mingw-w64-boost-1.79.0-1-any.pkg.tar.zst && \
     pacman -U --noconfirm mingw-w64-boost-1.79.0-1-any.pkg.tar.zst && \
@@ -56,8 +56,8 @@ RUN wget --no-verbose \
 
 # Compatibility with the old Ubuntu MingW image
 RUN ln -s /usr/x86_64-w64-mingw32/lib/qt /usr/x86_64-w64-mingw32/lib/qt5
-# Give yuzu user sudo access for AUR usage
-RUN echo "yuzu ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
+# Give suyu user sudo access for AUR usage
+RUN echo "suyu ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 USER 1027
 
@@ -88,5 +88,5 @@ RUN \
     makepkg -si --noconfirm --noprogressbar --nocheck && \
 # cleanup
     cd && rm -rf mingw-* && \
-    sudo sed -i 's/yuzu/#yuzu/g' /etc/sudoers
+    sudo sed -i 's/suyu/#suyu/g' /etc/sudoers
 
