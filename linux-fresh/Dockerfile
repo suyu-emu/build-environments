@@ -2,6 +2,7 @@ FROM ubuntu:20.04
 LABEL maintainer="suyu"
 
 ENV CCACHE_VER=4.9.1
+ENV MOLD_VER=2.30.0
 ENV BOOST_VER=1_79_0
 ENV CLANG_VER=14
 ENV CMAKE_VER=3.22.6
@@ -89,7 +90,6 @@ RUN useradd -m -u 1027 -s /bin/bash suyu && \
     llvm-${CLANG_VER}-linker-tools && \
     ln -s $(which clang-${CLANG_VER}) /usr/bin/clang && \
     ln -s $(which clang++-${CLANG_VER}) /usr/bin/clang++ && \
-    dpkg-reconfigure ccache && \
 # Install NodeJS
 		wget -qO- https://deb.nodesource.com/setup_20.x | bash - && apt-get install -y nodejs && \
 # Clean Container
@@ -141,11 +141,19 @@ RUN cd /tmp && \
 
 # Install CCache from suyu/ext-linux-bin
 RUN cd /tmp && \
-    wget --no-verbose https://git.suyu.dev/suyu/ext-linux-bin/raw/main/ccache/ccache-${CCACHE_VER}-linux-x86_64.tar.xz && \
+    wget --no-verbose https://git.suyu.dev/suyu/ext-linux-bin/media/branch/main/ccache/ccache-${CCACHE_VER}-linux-x86_64.tar.xz && \
     tar xvf ccache-${CCACHE_VER}-linux-x86_64.tar.xz && \
     chown -R root:root ccache-${CCACHE_VER}-linux-x86_64/ && \
-    cp -rv ccache-${CCACHE_VER}-linux-x86_64/usr / && \
+    cp -rv ccache-${CCACHE_VER}-linux-x86_64/ccache /usr/bin/ccache && \
     rm -rf ccache*
+
+# Install Mold from suyu/ext-linux-bin
+RUN cd /tmp && \
+    wget --no-verbose https://git.suyu.dev/suyu/ext-linux-bin/media/branch/main/mold/mold-${MOLD_VER}-x86_64-linux.tar.gz && \
+    tar xvf mold-${MOLD_VER}-x86_64-linux.tar.gz && \
+    chown -R root:root mold-${MOLD_VER}-x86_64-linux/ && \
+    cp -rv mold-${MOLD_VER}-x86_64-linux/ / && \
+    rm -rf mold*
 
 # Setup paths for Qt binaries
 ENV LD_LIBRARY_PATH=/opt/qt${QT_PKG_VER}/lib:${LD_LIBRARY_PATH}
