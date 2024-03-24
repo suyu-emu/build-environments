@@ -12,7 +12,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: verify
     strategy:
       matrix:
         # image: ["linux-clang-format", "linux-fresh", "linux-mingw", "linux-transifex"]
