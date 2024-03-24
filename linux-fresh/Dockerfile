@@ -152,7 +152,9 @@ RUN cd /tmp && \
     wget --no-verbose https://git.suyu.dev/suyu/ext-linux-bin/media/branch/main/mold/mold-${MOLD_VER}-x86_64-linux.tar.gz && \
     tar xvf mold-${MOLD_VER}-x86_64-linux.tar.gz && \
     chown -R root:root mold-${MOLD_VER}-x86_64-linux/ && \
-    cp -rv mold-${MOLD_VER}-x86_64-linux/ / && \
+    cp -rv mold-${MOLD_VER}-x86_64-linux/libexec/* /usr/libexec/ && \
+    cp -rv mold-${MOLD_VER}-x86_64-linux/lib/* /usr/lib/ && \
+    cp -rv mold-${MOLD_VER}-x86_64-linux/bin/* /usr/bin/ && \
     rm -rf mold*
 
 # Setup paths for Qt binaries
