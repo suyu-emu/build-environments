@@ -97,11 +97,15 @@ ENV DIND_COMMIT 65cfcc28ab37cb75e1560e4b4738719c07c6618e
 
 RUN set -eux; \
 	wget -O /usr/local/bin/dind "https://raw.githubusercontent.com/docker/docker/${DIND_COMMIT}/hack/dind"; \
-	chmod +x /usr/local/bin/dind \
-	wget -O /usr/local/bin/forgejo-runner https://code.forgejo.org/forgejo/runner/releases/download/v3.3.0/forgejo-runner-3.3.0-linux-amd64 \
-	chmod +x /usr/local/bin/forgejo-runner
+	chmod +x /usr/local/bin/dind
 
-COPY dockerd-entrypoint.sh /usr/local/bin/
+RUN set -eux; \
+	wget -O /usr/local/bin/dockerd-entrypoint.sh "https://raw.githubusercontent.com/docker-library/docker/master/26/dind/dockerd-entrypoint.sh"; \
+	chmod +x /usr/local/bin/dockerd-entrypoint.sh
+
+RUN set -eux; \
+	wget -O /usr/local/bin/forgejo-runner "https://code.forgejo.org/forgejo/runner/releases/download/v3.3.0/forgejo-runner-3.3.0-linux-amd64"; \
+	chmod +x /usr/local/bin/forgejo-runner
 
 VOLUME /var/lib/docker
 EXPOSE 2375 2376
