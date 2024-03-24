@@ -12,7 +12,7 @@ on:
 
 jobs:
   build:
-    runs-on: verify
+    runs-on: docker-build
     strategy:
       matrix:
         # image: ["linux-clang-format", "linux-fresh", "linux-mingw", "linux-transifex"]
