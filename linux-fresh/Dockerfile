@@ -1,6 +1,7 @@
 FROM ubuntu:20.04
 LABEL maintainer="suyu"
 
+ENV CCACHE_VER=4.9.1
 ENV BOOST_VER=1_79_0
 ENV CLANG_VER=14
 ENV CMAKE_VER=3.22.6
@@ -25,7 +26,6 @@ RUN useradd -m -u 1027 -s /bin/bash suyu && \
     xz-utils \
 # suyu build requirements
     build-essential \
-    ccache \
     git \
     libgl-dev \
     liblz4-dev \
@@ -138,6 +138,14 @@ RUN cd /tmp && \
     tar xf binutils-${GNU_BIN_VER}-${UBUNTU_VER}.tar.xz && \
     cp -rv binutils-${GNU_BIN_VER}-${UBUNTU_VER}/usr / && \
     rm -rf /tmp/binutils*
+
+# Install CCache from suyu/ext-linux-bin
+RUN cd /tmp && \
+    wget --no-verbose https://git.suyu.dev/suyu/ext-linux-bin/raw/main/ccache/ccache-${CCACHE_VER}-linux-x86_64.tar.xz && \
+    tar xvf ccache-${CCACHE_VER}-linux-x86_64.tar.xz && \
+    chown -R root:root ccache-${CCACHE_VER}-linux-x86_64/ && \
+    cp -rv ccache-${CCACHE_VER}-linux-x86_64/usr / && \
+    rm -rf ccache*
 
 # Setup paths for Qt binaries
 ENV LD_LIBRARY_PATH=/opt/qt${QT_PKG_VER}/lib:${LD_LIBRARY_PATH}
