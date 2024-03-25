@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         # image: ["linux-clang-format", "linux-fresh", "linux-mingw", "linux-transifex"]
-        image: ["forgejo-runner-dind", "linux-clang-format", "linux-fresh", "linux-mingw"]
+        image: ["android", "linux-clang-format", "linux-fresh", "linux-mingw"]
     
     steps:
     - uses: https://github.com/actions/checkout@v2
