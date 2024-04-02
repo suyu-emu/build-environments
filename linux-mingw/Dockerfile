@@ -43,16 +43,13 @@ RUN useradd -m -u 1027 -s /bin/bash suyu && mkdir -p /tmp/pkgs && \
     mingw-w64-winpthreads \
     mingw-w64-zlib \
     mingw-w64-zstd \
+    mingw-w64-cmake \
+    mingw-w64-sdl2 \
+		mingw-w64-boost \
 		nodejs-lts-iron \
     && \
     pacman -Scc --noconfirm && \
     rm -rf /usr/share/man/ /tmp/* /var/tmp/ /usr/{i686-w64-mingw32,lib32} /usr/lib/gcc/i686-w64-mingw32
-
-# Install Boost from suyu/ext-linux-bin
-RUN wget --no-verbose \
-        https://git.suyu.dev/suyu/ext-linux-bin/raw/main/mingw/mingw-w64-boost-1.79.0-1-any.pkg.tar.zst && \
-    pacman -U --noconfirm mingw-w64-boost-1.79.0-1-any.pkg.tar.zst && \
-    rm mingw-w64-boost-1.79.0-1-any.pkg.tar.zst
 
 # Compatibility with the old Ubuntu MingW image
 RUN ln -s /usr/x86_64-w64-mingw32/lib/qt /usr/x86_64-w64-mingw32/lib/qt5
@@ -60,20 +57,8 @@ RUN ln -s /usr/x86_64-w64-mingw32/lib/qt /usr/x86_64-w64-mingw32/lib/qt5
 RUN echo "suyu ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 USER 1027
-
 # Build/install small AUR packages
 RUN \
-# mingw-w64-sdl2
-    cd && \
-    git clone https://aur.archlinux.org/mingw-w64-sdl2.git && \
-    cd mingw-w64-sdl2 && \
-    # Revert to SDL 2.26.4
-    git checkout 277c44a && \
-    # Only build for x86_64
-    sed -i "s/'i686-w64-mingw32'//g" PKGBUILD && \
-    makepkg -si --noconfirm --noprogressbar && \
-    # Get rid of -mwindows from SDL2 CMake configs
-    sudo sed -i 's/-mwindows//g' /usr/x86_64-w64-mingw32/lib/cmake/SDL2/sdl2-config.cmake && \
 # mingw-w64-clang -- MinGW wrapper for host clang
     cd && \
     git clone https://aur.archlinux.org/mingw-w64-wclang-git.git && \
